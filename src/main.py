@@ -3,21 +3,26 @@ from discord.ext import commands
 import asyncio
 from signal import SIGINT, SIGTERM
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
+import sys 
 
+load_dotenv(override=True)
 
-load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-NASHTA_CHANNEL_ID = 889139268486828054
+NASHTA_CHANNEL_ID = os.getenv('NASHTA_CHANNEL_ID')
 COGS_DIR = './src/cogs'
+
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+
+# channel = guild.get_channel(NASHTA_CHANNEL_ID)
 
 async def load_extensions():
     print('loading extensions')
@@ -31,7 +36,6 @@ async def load_extensions():
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
-
 
 
 @bot.event
