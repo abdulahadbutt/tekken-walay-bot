@@ -4,13 +4,14 @@ import asyncio
 from signal import SIGINT, SIGTERM
 import os
 from dotenv import load_dotenv, find_dotenv
-import sys 
 import logging 
 import logging.handlers
 
+# ? Loading in the .env file and creating logs directory
 load_dotenv(override=True)
 os.makedirs('logs', exist_ok=True)
 
+# ? Reading in environment variables
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 NASHTA_CHANNEL_ID = os.getenv('NASHTA_CHANNEL_ID')
@@ -48,17 +49,20 @@ async def load_extensions():
             await bot.load_extension(f"cogs.{filename[:-3]}")
 
 
+# ? On ready decorator
 @bot.event
 async def on_ready():
     logger.info(f'Logged in as {bot.user}')
 
 
+# ? Checking message
 @bot.event
 async def on_message(message):
+    # ? Stopping reading bot's own messages
     if message.author == bot.user:
         return
     
-    
+    # ? Simple command to check if bot is online
     if message.content.startswith('$hello'):
         logger.info("User used $hello")
         await message.channel.send('Hello!')
