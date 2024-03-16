@@ -11,7 +11,7 @@ logger = logging.getLogger('discord')
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 NASHTA_CHANNEL_ID = os.getenv('NASHTA_CHANNEL_ID')
-CHANNEL_NAME = 'general'
+CHANNEL_NAME = os.getenv('CHANNEL_NAME')
 
 nashta_members = open('nashta_report_members.txt', 'r').readlines()
 nashta_members = [x.strip() for x in nashta_members]
