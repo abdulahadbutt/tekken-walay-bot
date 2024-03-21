@@ -14,7 +14,6 @@ os.makedirs('logs', exist_ok=True)
 # ? Reading in environment variables
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-NASHTA_CHANNEL_ID = os.getenv('NASHTA_CHANNEL_ID')
 COGS_DIR = './src/cogs'
 
 
@@ -42,7 +41,7 @@ logger.addHandler(handler)
 
 async def load_extensions():
     logger.info('loading extensions')
-    for filename in os.listdir("./src/cogs"):
+    for filename in os.listdir(COGS_DIR):
         if filename.endswith(".py"):
             # cut off the .py from the file name
             logger.info(f'loading extension: src.cogs.{filename[:-3]}')
