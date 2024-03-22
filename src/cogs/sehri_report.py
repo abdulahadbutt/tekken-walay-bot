@@ -10,36 +10,34 @@ logger = logging.getLogger('discord')
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-# NASHTA_CHANNEL_ID = os.getenv('NASHTA_CHANNEL_ID')
-CHANNEL_NAME = os.getenv('CHANNEL_NAME')
 
-nashta_members = open('nashta_report_members.txt', 'r').readlines()
-nashta_members = [x.strip() for x in nashta_members]
+sehri_members = open('nashta_report_members.txt', 'r').readlines()
+sehri_members = [x.strip() for x in sehri_members]
 
-# nashta_time = (datetime.utcnow() + timedelta(minutes=2)).time()
-nashta_time = datetime.time(hour=5, tzinfo=datetime.timezone.utc)
-logger.info(f'NASHTA TIME: {nashta_time}')
+# sehri_time = (datetime.datetime.utcnow() + datetime.timedelta(minutes=2)).time()
+sehri_time = datetime.time(hour=0, tzinfo=datetime.timezone.utc)
+logger.info(f'SEHRI TIME: {sehri_time}')
 
-class NashtaReport(commands.Cog):
+class SehriReport(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        logger.info('LOADING NASHTA REPORT...')
+        logger.info('LOADING SEHRI REPORT...')
 
         super().__init__()
         self.bot = bot 
-        self.print_nashta_report.start()
+        self.print_sehri_report.start()
         
-        logger.info('LOADED NASHTA REPORT...')
+        logger.info('LOADED SEHRI REPORT...')
 
 
     def cog_unload(self):
-        self.print_nashta_report.cancel()
+        self.print_sehri_report.cancel()
 
 
     # @tasks.loop(seconds=5.0, count=1)
-    @tasks.loop(time=nashta_time)
-    async def print_nashta_report(self):
+    @tasks.loop(time=sehri_time)
+    async def print_sehri_report(self):
         all_members = self.guild.members 
-        n_members = [x for x in all_members if x.name in nashta_members]
+        n_members = [x for x in all_members if x.name in sehri_members]
         message_content = [x.id for x in n_members]
         message_content = [f'<@{x}>' for x in message_content]
 
@@ -50,13 +48,13 @@ class NashtaReport(commands.Cog):
                 self.channel = channel
 
 
-        msg = "Nashta Report " + " ".join(message_content)
+        msg = "Sehri Report " + " ".join(message_content)
         await self.channel.send(msg)
 
 
-    @print_nashta_report.before_loop
-    async def before_print_nashta_report(self):
-        logger.info('PRELOADING NASHTA...')
+    @print_sehri_report.before_loop
+    async def before_print_sehri_report(self):
+        logger.info('PRELOADING SEHRI...')
         await self.bot.wait_until_ready()
 
         # logger.info('all guilds')
@@ -65,8 +63,8 @@ class NashtaReport(commands.Cog):
 
         # logger.info('specific guild: ')
         # logger.info(self.guild)
-        logger.info('NASHTA PRELOADED...')
+        logger.info('SEHRI PRELOADED...')
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(NashtaReport(bot))
+    await bot.add_cog(SehriReport(bot))
