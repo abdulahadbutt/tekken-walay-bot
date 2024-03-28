@@ -1,0 +1,10 @@
+{
+    "chat is this real?": {
+        "response": "Ya bro Ya",
+        "mention_user": true
+    },
+    "ya bro": {
+        "response": "YA BRO YA BRO YA BRO",
+        "mention_user": false
+    }
+}
